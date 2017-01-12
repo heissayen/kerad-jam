@@ -53,20 +53,14 @@ public class manager : MonoBehaviour {
 					float gestureDist = (touch.position - fingerStartPos).magnitude;
 					if (isSwipe && isMove && gestureDist > minSwipeDist && gestureTime > minSwipeTime) {
 						Vector2 direction = touch.position - fingerStartPos;
-						Vector2 swipeType = Vector2.zero;
 						if (withBall) {
 							scr_shot.NormalShoot (new Vector3 (direction.x, 0, direction.y), 50.0f);
-						} else {
-							if (Mathf.Abs (direction.x) > Mathf.Abs (direction.y))
-								swipeType = Vector2.right * Mathf.Sign (direction.x);
+						}
+						else {
+							if(direction.x > 0)
+								scr_mov.right (1);
 							else
-								swipeType = Vector2.up * Mathf.Sign (direction.y);
-							if (swipeType.x != 0.0f) {
-								if (swipeType.x > 0.0f)
-									scr_mov.right (1);
-								else
-									scr_mov.left (1);
-							}
+								scr_mov.left (1);
 						}
 					}
 					isSwipe = false;
