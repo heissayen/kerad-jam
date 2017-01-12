@@ -5,12 +5,13 @@ public class manager : MonoBehaviour {
 	//Control de la bola
 	private bool withBall = false;
 	private float withBallSec;
-	private float withBallMaxSec;
+	private float withBallMaxSec = 3.0f;
 
 	//Variables para Swipe
 	private float fingerStartTime = 0.0f;
 	private Vector2 fingerStartPos = Vector2.zero;
 	private bool isSwipe = false;
+	private bool isMove = false;
 	private float minSwipeDist = 50.0f;
 	private float minSwipeTime = 0.2f;
 
@@ -35,21 +36,26 @@ public class manager : MonoBehaviour {
 			foreach (Touch touch in Input.touches) {
 				switch (touch.phase) {
 				case TouchPhase.Began:
+					isMove = false;
 					isSwipe = true;
 					fingerStartTime = Time.time;
 					fingerStartPos = touch.position;
 					break;
 				case TouchPhase.Canceled:
+					isMove = false;
 					isSwipe = false;
+					break;
+				case TouchPhase.Moved:
+					isMove = true;
 					break;
 				case TouchPhase.Ended:
 					float gestureTime = Time.time - fingerStartTime;
-					float gestureDist = (touch.position - fingerStartTime).magnitude;
-					if (isSwipe && gestureDist > minSwipeDist && gestureTime > minSwipeTime) {
+					float gestureDist = (touch.position - fingerStartPos).magnitude;
+					if (isSwipe && isMove && gestureDist > minSwipeDist && gestureTime > minSwipeTime) {
 						Vector2 direction = touch.position - fingerStartPos;
 						Vector2 swipeType = Vector2.zero;
 						if (withBall) {
-							scr_shot.NormalShoot (new Vector3(direction.x,0,direction.y),50.0f);
+							scr_shot.NormalShoot (new Vector3 (direction.x, 0, direction.y), 50.0f);
 						} else {
 							if (Mathf.Abs (direction.x) > Mathf.Abs (direction.y))
 								swipeType = Vector2.right * Mathf.Sign (direction.x);
@@ -63,6 +69,8 @@ public class manager : MonoBehaviour {
 							}
 						}
 					}
+					isSwipe = false;
+					isMove = false;
 					withBall = false;
 					break;
 				}
