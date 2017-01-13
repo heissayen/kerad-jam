@@ -106,7 +106,7 @@ public class manager : MonoBehaviour {
 	[PunRPC]
 	void UpdateBallAndPlayer()
 	{
-
+		
 	}
 
 	[PunRPC]
