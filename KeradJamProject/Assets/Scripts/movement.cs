@@ -22,12 +22,12 @@ public class movement : MonoBehaviour {
 		timeStartedLerping = Time.time;
 
 		startPosition = transform.position;
-		endPosition = new Vector3 (refs[pos].transform.position.x * 1.0f, 0, 0);
+		endPosition = refs[pos].transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (transform.position.x != refs[pos].transform.position.x * 1.0f) {
+		if (transform.position.x != refs[pos].transform.position.x) {
 			StartLerping ();
 		}
 	}
@@ -40,7 +40,7 @@ public class movement : MonoBehaviour {
 			transform.position = Vector3.Lerp (startPosition, endPosition, percentageComplete);
 			if(percentageComplete >= 0.95f){
 				isLerping = false;
-				transform.position = new Vector3 (pos * 1.0f, 0, 0);
+				transform.position = refs[pos].transform.position;
 			}
 		}
 	}
@@ -53,7 +53,7 @@ public class movement : MonoBehaviour {
 	}
 
 	public void left(int d){
-		if (pos - d > 0 && Time.time > cd_time + cd) {
+		if (pos - d >= 0 && Time.time > cd_time + cd) {
 			pos -= d;
 			cd_time = Time.time;
 		}

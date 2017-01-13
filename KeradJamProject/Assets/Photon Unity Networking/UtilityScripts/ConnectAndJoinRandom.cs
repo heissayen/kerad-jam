@@ -53,7 +53,7 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
     public virtual void OnPhotonRandomJoinFailed()
     {
         Debug.Log("OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one. Calling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 4 }, null);
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 2 }, null);
     }
 
     // the following methods are implemented to give you some context. re-implement them as needed.
@@ -66,5 +66,15 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
     public void OnJoinedRoom()
     {
         Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room. From here on, your game would be running. For reference, all callbacks are listed in enum: PhotonNetworkingMessage");
+
+        if (PhotonNetwork.playerList.Length < 2)
+        {
+            Debug.Log("only 1 player logged in");
+            Messenger.Broadcast(Messages.PlayerOneJoined);
+        }
+        else
+        {
+            Messenger.Broadcast(Messages.PlayerTwoJoined);
+        }
     }
 }

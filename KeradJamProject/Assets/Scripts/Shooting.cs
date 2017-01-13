@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Shooting : MonoBehaviour {
 
+	public PhotonView photonView;
+
 	public float min_angle = 25;
 	float max_angle;
 
@@ -12,7 +14,10 @@ public class Shooting : MonoBehaviour {
 	Vector3 dir;
 
 	public GameObject ball;
+	public bool isPlayerOne;
 
+	float angle;
+	Vector3 vct;
 
 	// Use this for initialization
 	void Awake () {
@@ -28,34 +33,57 @@ public class Shooting : MonoBehaviour {
 		{
 			dir = new Vector3(Random.Range(-5f, 5f), 0, 1);
 			Debug.Log("dir: " + dir);
-			NormalShoot(dir, power);
+			//NormalShoot(dir, power);
+			photonView.RPC("RPCShoot", PhotonTargets.All, dir, power);
 		}
-		
+
+		/*if (isPlayerOne)
+		{
+			vct = Input.mousePosition -transform.position;
+			vct.Normalize();
+			//angle = Vector3.Angle (new Vector3(vct.x, 0, vct.y), new Vector3(0, 0, 1));
+			//angle = Vector2.Angle(vct, Vector2.one);		
+		}*/
+			
 	}
 
-	public void NormalShoot(Vector3 direction, float pow) 
+	public void ShootLogic(Vector3 direction, float pow) 
 	{
 		direction.Normalize();
 		direction = CheckAngle(direction);
 
-		Debug.Log("Angle: " + Vector3.Angle(dir, Vector3.right));
 
 		ball.GetComponent<Rigidbody>().AddForce(direction * pow, ForceMode.Impulse);
 	}
 
 	Vector3 CheckAngle(Vector3 direction)
 	{
-		if (Vector3.Angle(dir, Vector3.right) < min_angle)
+		if (Vector3.Angle(direction, Vector3.forward) < min_angle)
 		{
-			Debug.Log("new angle: " + Vector3.Angle(new Vector3(0.5f, 0, 1), Vector3.right));
 			return new Vector3(0.5f, 0, 1);
 		}
-		else if (Vector3.Angle(dir, Vector3.right) > max_angle)
+		else if (Vector3.Angle(direction, Vector3.forward) > max_angle)
 		{
 			return new Vector3(-0.5f, 0, 1);
 		}
 
 		return direction;
+	}
+
+	void OnGUI() {
+
+        GUI.Label(new Rect(10, 40, 333, 333), "Angle: " + angle + " mousPosition: " + vct);
+    }
+
+	public void NormalShoot(Vector3 direction, float pow) 
+	{
+		photonView.RPC("RPCShoot", PhotonTargets.All, direction, pow);
+	}
+
+	[PunRPC]
+	void RPCShoot(Vector3 d, float pow)
+	{
+		ShootLogic(d, pow);
 	}
 
 
