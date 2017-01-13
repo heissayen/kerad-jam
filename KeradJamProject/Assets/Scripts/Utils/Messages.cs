@@ -7,5 +7,7 @@ public enum Messages : int
     PlayerOneGoal,
     PlayerTwoGoal,
     PlayerOneWins,
-    PlayerTwoWins
+    PlayerTwoWins,
+    StartGame,
+    SearchGame
 }

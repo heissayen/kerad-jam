@@ -6,6 +6,7 @@ public class canvas : MonoBehaviour {
 
 	private float start_time;
 	public float loading_time = 1.5f;
+	bool loaded = false;
 
 	public GameObject pantalla_carga;
 	public GameObject pantalla_menu;
@@ -40,12 +41,15 @@ public class canvas : MonoBehaviour {
 		startPosition = nubes.transform.position;
 		endPosition = new Vector3 (-startPosition.x, startPosition.y, 0.0f);
 		isLerping = true;
+
+		Messenger.AddListener(Messages.StartGame, StartGame);
 	}
 
 	void Update(){
-		if (Time.time > start_time + loading_time) {
+		if (Time.time > start_time + loading_time && !loaded) {
 			pantalla_carga.SetActive (false);
 			pantalla_menu.SetActive(true);
+			loaded = true;
 		}
 
 		if (isLerping) {
@@ -61,12 +65,13 @@ public class canvas : MonoBehaviour {
 	//Display de menu de busqueda llamado desde menu principal
 	public void battle(){
 		pantalla_busqueda.SetActive (true);
-		//CODIGO DE BUSQUEDA DE RIVAL
+		Messenger.Broadcast(Messages.SearchGame);
 	}
 	//Display de menu principal llamado desde menu de busqueda
 	public void back(){
 		pantalla_menu.SetActive(true);
 		pantalla_busqueda.SetActive (false);
+		PhotonNetwork.Disconnect();
 		//CODIGO CANCELAR BUSQUEDA DEL RIVAL
 	}
 	//Display dentro de partida llamado desde menu de busqueda
@@ -94,5 +99,18 @@ public class canvas : MonoBehaviour {
 		jugador.GetComponent<Image> ().sprite = skins [Mathf.Abs((puntero)%skins.Length)];
 		barras.GetComponent<Image> ().sprite = stats [Mathf.Abs((puntero)%skins.Length)];
 		icono.GetComponent<Image> ().sprite = icons [Mathf.Abs((puntero)%skins.Length)];
+	}
+
+	void StartGame()
+	{
+		Debug.Log("startin game");
+		pantalla_menu.SetActive(false);
+		pantalla_busqueda.SetActive(false);
+		cabecera_puntuacion.SetActive (true);
+	}
+
+	void OnDisable()
+	{
+		Messenger.RemoveListener(Messages.StartGame, StartGame);
 	}
 }
