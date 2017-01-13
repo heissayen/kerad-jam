@@ -71,11 +71,6 @@ public class Shooting : MonoBehaviour {
 		return direction;
 	}
 
-	void OnGUI() {
-
-        GUI.Label(new Rect(10, 40, 333, 333), "Angle: " + angle + " mousPosition: " + vct);
-    }
-
 	public void NormalShoot(Vector3 origin, Vector3 direction, float pow) 
 	{
 		photonView.RPC("RPCShoot", PhotonTargets.All, origin, direction, pow);

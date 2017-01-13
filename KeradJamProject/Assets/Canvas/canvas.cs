@@ -125,7 +125,7 @@ public class canvas : MonoBehaviour {
 		winlose.SetActive(true);
 		winlose.transform.FindChild("l").gameObject.SetActive(true);
 		winlose.transform.FindChild("ScoreP2").GetComponent<Text>().text = FindObjectOfType<GameManager>().p2Score.ToString();
-		winlose.transform.FindChild("Score12").GetComponent<Text>().text = FindObjectOfType<GameManager>().p1Score.ToString();
+		winlose.transform.FindChild("ScoreP1").GetComponent<Text>().text = FindObjectOfType<GameManager>().p1Score.ToString();
 	}
 
 	void OnDisable()
