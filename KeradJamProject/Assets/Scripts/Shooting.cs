@@ -47,11 +47,11 @@ public class Shooting : MonoBehaviour {
 			
 	}
 
-	public void ShootLogic(Vector3 direction, float pow) 
+	public void ShootLogic(Vector3 origin, Vector3 direction, float pow) 
 	{
 		direction.Normalize();
 		//direction = CheckAngle(direction);
-
+		ball.transform.position = origin;
 
 		ball.GetComponent<Rigidbody>().AddForce(direction * pow, ForceMode.Impulse);
 	}
@@ -75,15 +75,15 @@ public class Shooting : MonoBehaviour {
         GUI.Label(new Rect(10, 40, 333, 333), "Angle: " + angle + " mousPosition: " + vct);
     }
 
-	public void NormalShoot(Vector3 direction, float pow) 
+	public void NormalShoot(Vector3 origin, Vector3 direction, float pow) 
 	{
-		photonView.RPC("RPCShoot", PhotonTargets.All, direction, pow);
+		photonView.RPC("RPCShoot", PhotonTargets.All, origin, direction, pow);
 	}
 
 	[PunRPC]
-	void RPCShoot(Vector3 d, float pow)
+	void RPCShoot(Vector3 ori, Vector3 d, float pow)
 	{
-		ShootLogic(d, pow);
+		ShootLogic(ori,d, pow);
 	}
 
 

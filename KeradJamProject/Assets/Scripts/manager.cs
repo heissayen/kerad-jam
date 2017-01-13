@@ -57,7 +57,7 @@ public class manager : MonoBehaviour {
 					if (isSwipe && isMove && gestureDist > minSwipeDist) {
 						Vector2 direction = touch.position - fingerStartPos;
 						if (withBall) {
-							scr_shot.NormalShoot (new Vector3 (direction.x, 0, direction.y), 50.0f);
+							scr_shot.NormalShoot (ball.transform.position ,new Vector3 (direction.x, 0, direction.y), 50.0f);
 						}
 						else {
 							if(direction.x > 0)
@@ -96,6 +96,12 @@ public class manager : MonoBehaviour {
 			withBallSec = Time.time;
 			ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
 		}
+	}
+
+	[PunRPC]
+	void UpdateBallAndPlayer()
+	{
+
 	}
 
 	[PunRPC]
