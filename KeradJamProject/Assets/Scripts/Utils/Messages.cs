@@ -1,5 +1,11 @@
 ﻿
 public enum Messages : int
 {
-	GoalScore
+	GoalScore,
+    PlayerOneJoined,
+    PlayerTwoJoined,
+    PlayerOneGoal,
+    PlayerTwoGoal,
+    PlayerOneWins,
+    PlayerTwoWins
 }

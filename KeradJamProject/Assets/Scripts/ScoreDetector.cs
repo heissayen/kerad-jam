@@ -6,8 +6,7 @@ public class ScoreDetector : MonoBehaviour {
 	public enum Side {PLAYER_ONE, PLAYER_TWO}
 	public Side side;
 	
-	int score;
-	public int Score{ get { return score;}  set { score = value;}}
+	public int score;
 
 	void OnTriggerEnter(Collider other)
 	{
@@ -28,12 +27,12 @@ public class ScoreDetector : MonoBehaviour {
 		{
 			case Side.PLAYER_ONE:
 			{
-				// add score to player2
+				Messenger<int>.Broadcast(Messages.PlayerTwoGoal, score);
 			}
 			;break;
 			case Side.PLAYER_TWO:
 			{
-				// add score to player1
+				Messenger<int>.Broadcast(Messages.PlayerOneGoal, score);
 			}
 			;break;
 		}
