@@ -3,5 +3,7 @@ public enum Messages : int
 {
 	GoalScore,
     PlayerOneJoined,
-    PlayerTwoJoined
+    PlayerTwoJoined,
+    PlayerOneGoal,
+    PlayerTwoGoal
 }

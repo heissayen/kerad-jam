@@ -8,6 +8,7 @@ using System.Collections;
 /// </summary>
 public class ConnectAndJoinRandom : Photon.MonoBehaviour
 {
+    public bool createGame = false;
     /// <summary>Connect automatically? If false you can set this to true later on or call ConnectUsingSettings in your own scripts.</summary>
     public bool AutoConnect = true;
 
@@ -24,7 +25,7 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
 
     public virtual void Update()
     {
-        if (ConnectInUpdate && AutoConnect && !PhotonNetwork.connected)
+        if (ConnectInUpdate && AutoConnect && !PhotonNetwork.connected & createGame)
         {
             Debug.Log("Update() was called by Unity. Scene is loaded. Let's connect to the Photon Master Server. Calling: PhotonNetwork.ConnectUsingSettings();");
 
