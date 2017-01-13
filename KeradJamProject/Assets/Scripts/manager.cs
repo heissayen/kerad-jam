@@ -81,16 +81,12 @@ public class manager : MonoBehaviour {
 			}
 		}
 
-		if (withBall)
-		{
-			ball.transform.position = new Vector3(this.transform.position.x, ball.transform.position.y, ball.transform.position.z);
-		}
 	}
 
 	public void ResetBall()
 	{
 		ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-		ball.transform.position = this.transform.position + this.transform.forward*5;
+		ball.transform.position = this.transform.position + this.transform.forward*2;
 		withBall = true;
 	}
 

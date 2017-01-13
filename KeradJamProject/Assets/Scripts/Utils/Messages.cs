@@ -5,5 +5,7 @@ public enum Messages : int
     PlayerOneJoined,
     PlayerTwoJoined,
     PlayerOneGoal,
-    PlayerTwoGoal
+    PlayerTwoGoal,
+    PlayerOneWins,
+    PlayerTwoWins
 }

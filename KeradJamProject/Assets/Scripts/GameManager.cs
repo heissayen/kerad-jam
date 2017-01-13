@@ -16,19 +16,22 @@ public class GameManager : MonoBehaviour {
 		Messenger.AddListener(Messages.PlayerTwoJoined, PlayerTwoJoined);
 
 		Messenger<int>.AddListener(Messages.PlayerOneGoal, AddScoreP1);
-		Messenger<int>.AddListener(Messages.PlayerOneGoal, AddScoreP2);
+		Messenger<int>.AddListener(Messages.PlayerTwoGoal, AddScoreP2);
 		
+		SearchGame();
 	}
 
 	void AddScoreP1(int score)
 	{
 		p1Score += score;
 		p2.GetComponent<manager>().ResetBall();
+		CheckWinCondition();
 	}
 	void AddScoreP2(int score)
 	{
 		p2Score += score;
 		p1.GetComponent<manager>().ResetBall();
+		CheckWinCondition();
 	}
 	
 	void PlayerOneJoined()
@@ -54,7 +57,21 @@ public class GameManager : MonoBehaviour {
 
 	void StartGame()
 	{
-		//LoadGame
+		//LoadGameScreen
+	}
+
+	void CheckWinCondition()
+	{
+		if (p1Score == 5)
+		{
+			Messenger.Broadcast(Messages.PlayerOneWins);
+			PhotonNetwork.Disconnect();
+		}
+		else if (p2Score == 5)
+		{
+			Messenger.Broadcast(Messages.PlayerTwoWins);
+			PhotonNetwork.Disconnect();
+		}
 	}
 }
 

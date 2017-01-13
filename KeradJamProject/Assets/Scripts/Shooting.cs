@@ -50,7 +50,7 @@ public class Shooting : MonoBehaviour {
 	public void ShootLogic(Vector3 direction, float pow) 
 	{
 		direction.Normalize();
-		direction = CheckAngle(direction);
+		//direction = CheckAngle(direction);
 
 
 		ball.GetComponent<Rigidbody>().AddForce(direction * pow, ForceMode.Impulse);
