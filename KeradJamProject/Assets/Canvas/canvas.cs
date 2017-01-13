@@ -12,6 +12,7 @@ public class canvas : MonoBehaviour {
 	public GameObject pantalla_menu;
 	public GameObject pantalla_busqueda;
 	public GameObject cabecera_puntuacion;
+	public GameObject winlose;
 
 	public Sprite[] skins;
 	public Sprite[] stats;
@@ -43,6 +44,8 @@ public class canvas : MonoBehaviour {
 		isLerping = true;
 
 		Messenger.AddListener(Messages.StartGame, StartGame);
+		Messenger.AddListener(Messages.Winner, DisplayWinner);
+		Messenger.AddListener(Messages.Loser, DisplayLoser);
 	}
 
 	void Update(){
@@ -78,6 +81,7 @@ public class canvas : MonoBehaviour {
 	public void match(){
 		pantalla_busqueda.SetActive (false);
 		cabecera_puntuacion.SetActive (true);
+		winlose.SetActive(false);
 	}
 	//Display de menu principal desde menu de partida
 	public void menu(){
@@ -103,14 +107,31 @@ public class canvas : MonoBehaviour {
 
 	void StartGame()
 	{
-		Debug.Log("startin game");
 		pantalla_menu.SetActive(false);
 		pantalla_busqueda.SetActive(false);
 		cabecera_puntuacion.SetActive (true);
 	}
 
+	void DisplayWinner()
+	{
+		winlose.SetActive(true);
+		winlose.transform.FindChild("w").gameObject.SetActive(true);
+		winlose.transform.FindChild("ScoreP2").GetComponent<Text>().text = FindObjectOfType<GameManager>().p2Score.ToString();
+		winlose.transform.FindChild("ScoreP1").GetComponent<Text>().text = FindObjectOfType<GameManager>().p1Score.ToString();
+	}
+
+	void DisplayLoser()
+	{
+		winlose.SetActive(true);
+		winlose.transform.FindChild("l").gameObject.SetActive(true);
+		winlose.transform.FindChild("ScoreP2").GetComponent<Text>().text = FindObjectOfType<GameManager>().p2Score.ToString();
+		winlose.transform.FindChild("Score12").GetComponent<Text>().text = FindObjectOfType<GameManager>().p1Score.ToString();
+	}
+
 	void OnDisable()
 	{
 		Messenger.RemoveListener(Messages.StartGame, StartGame);
+		Messenger.RemoveListener(Messages.Winner, DisplayWinner);
+		Messenger.RemoveListener(Messages.Loser, DisplayLoser);
 	}
 }

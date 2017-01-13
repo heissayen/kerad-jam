@@ -16,6 +16,7 @@ public class manager : MonoBehaviour {
 	private float minSwipeTime = 0.2f;
 
 	public bool isMine = false;
+	public int playerNum;
 	PhotonView photonView;
 
 	//GameObjects y scripts
@@ -100,13 +101,17 @@ public class manager : MonoBehaviour {
 			withBall = true;
 			withBallSec = Time.time;
 			ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+			photonView.RPC("UpdateBallAndPlayer", PhotonTargets.All,ball.transform.position, this.GetComponent<movement>().pos, this);
 		}
 	}
 
 	[PunRPC]
-	void UpdateBallAndPlayer()
+	void UpdateBallAndPlayer(Vector3 ballpos, int playerpos, manager mgr)
 	{
-		
+		ball.transform.position = ballpos;
+		mgr.withBall = true;
+		mgr.GetComponent<movement>().pos = playerpos;
 	}
 
 	[PunRPC]

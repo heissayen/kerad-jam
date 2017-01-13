@@ -9,5 +9,7 @@ public enum Messages : int
     PlayerOneWins,
     PlayerTwoWins,
     StartGame,
-    SearchGame
+    SearchGame,
+    Winner,
+    Loser
 }

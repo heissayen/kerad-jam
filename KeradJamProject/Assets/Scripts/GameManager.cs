@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-	int p1Score;
-	int p2Score;
+	public int p1Score;
+	public int p2Score;
 
 	bool searching;
 
@@ -97,15 +97,32 @@ public class GameManager : MonoBehaviour {
 
 	void CheckWinCondition()
 	{
-		if (p1Score == 15)
+		if (p1Score >= 15)
 		{
 			Messenger.Broadcast(Messages.PlayerOneWins);
 			PhotonNetwork.Disconnect();
+			if (p1.GetComponent<manager>().isMine)
+			{
+				Messenger.Broadcast(Messages.Winner);
+			}
+			else
+			{
+				Messenger.Broadcast(Messages.Loser);
+			}
 		}
-		else if (p2Score == 15)
+		else if (p2Score >= 15)
 		{
 			Messenger.Broadcast(Messages.PlayerTwoWins);
 			PhotonNetwork.Disconnect();
+
+			if (p2.GetComponent<manager>().isMine)
+			{
+				Messenger.Broadcast(Messages.Winner);
+			}
+			else
+			{
+				Messenger.Broadcast(Messages.Loser);
+			}
 		}
 	}
 }
