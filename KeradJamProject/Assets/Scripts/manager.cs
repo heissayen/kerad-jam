@@ -81,6 +81,11 @@ public class manager : MonoBehaviour {
 			}
 		}
 
+		if (Input.GetKeyDown(KeyCode.RightArrow) &isMine)
+		{
+			MoveRight();
+		}
+
 	}
 
 	public void ResetBall()

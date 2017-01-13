@@ -49,6 +49,7 @@ public class movement : MonoBehaviour {
 		if (pos + d < fields && Time.time > cd_time + cd) {
 			pos += d;
 			cd_time = Time.time;
+			this.GetComponentInChildren<Animator>().SetTrigger("Move");
 		}
 	}
 
@@ -56,6 +57,7 @@ public class movement : MonoBehaviour {
 		if (pos - d >= 0 && Time.time > cd_time + cd) {
 			pos -= d;
 			cd_time = Time.time;
+			this.GetComponentInChildren<Animator>().SetTrigger("Move");
 		}
 	}
 }

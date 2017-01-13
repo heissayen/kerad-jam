@@ -52,6 +52,7 @@ public class Shooting : MonoBehaviour {
 		direction.Normalize();
 		//direction = CheckAngle(direction);
 		ball.transform.position = origin;
+		this.GetComponentInChildren<Animator>().SetTrigger("Shoot");
 
 		ball.GetComponent<Rigidbody>().AddForce(direction * pow, ForceMode.Impulse);
 	}
